@@ -24,7 +24,7 @@ async function getDonor() {
             <input type="email" id="email" name="email" value="${employ.email}">
             <div class="buttons">
                 <button >Submit</button>
-                <button type="reset">Reset</button>
+                <button type="reset" >Reset</button>
             </div>
     `
 }
