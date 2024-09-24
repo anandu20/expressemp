@@ -41,6 +41,8 @@ async function getEmploy() {
                     <tr>
                         <td>${employ.email}</td>
                     </tr>
+
+           
                     <tr >
                         <td class="actions1" style="text-align:right">
                         <a href="./edit.html?id=${employ._id}"><button>Edit</button></a>

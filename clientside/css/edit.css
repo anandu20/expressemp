@@ -74,3 +74,11 @@ input[type="text"],input[type="number"], input[type="email"], input[type="tel"],
     color:  #f8f4f5;
    
 } */
+ .proimg{
+    height: 20vh;
+    width: 150px;
+ }
+ .proimg img{
+    height: 100%;
+    width: 100%;
+ }
