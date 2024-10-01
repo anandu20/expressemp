@@ -1,4 +1,8 @@
 import employSchema from './models/employ.model.js'
+import bcrypt from "bcrypt";  //bcrypt is for change the password to another form called harsh for saftey
+import userSchema from "./models/user.model.js";
+import pkg from "jsonwebtoken";
+const {sign}=pkg;
 export async function countEmployees(req,res) {
     try {
         const count=await employSchema.countDocuments({});
@@ -66,4 +70,63 @@ export async function deleteEmploy(req,res) {
     } catch (error) {
         res.status(404).send(error)
     }   
+}
+
+//register user 
+
+export async function signUp(req,res) {
+    try {
+        const{email,username,password,cpassword}=req.body;
+        console.log(email,username,password,cpassword);
+        if(!(email&&username&&password&&cpassword)){
+            return res.status(404).send({msg:"Fields are empty"});
+        }
+        if (password !==cpasword){
+            return res.ststus(404).send({msg:"Password does not match"});
+        }
+        bcrypt
+            .hash(password,10)
+            .then ((hashedpassword)=>{
+                userSchema
+                .create({email,username,password,cpassword})
+                .then(()=>{
+                    return res.status(201).send({msg:"Success"});
+
+                })
+                .catch((error)=>{
+                    return res.status(404).send({msg:"Not registered"});
+                })
+
+            })
+            .catch((error)=>{
+                return res.status(404).send ({msg:error});
+            })
+            
+    } catch (error) {
+        return res.satus(404).send({msg:error});
+        
+    }
+    
+}
+
+
+export async function signIn(req,res){
+    console.log(req.body);
+    const{email,password}=req.body;
+    if(!(email&&password))
+        return res.status(404).send({msg:"Fields are empty"});
+    const user=await userSchema.findOne({email});
+    console.log(user);
+    if(user===null)
+        return res.status(404).send({msg:"inavlid username"});
+    //convert to hash and comparre using bcrypt
+    const success =await bcrypt.compare(password,user.password);
+    console.log(success);
+    //generate token using sign
+    console.log(token);
+    return res.status (200).send ({msg:"successfully loged in",token})
+    
+    
+    
+    
 }
