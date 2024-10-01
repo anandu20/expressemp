@@ -78,17 +78,17 @@ export async function signUp(req,res) {
     try {
         const{email,username,password,cpassword}=req.body;
         console.log(email,username,password,cpassword);
-        if(!(email&&username&&password&&cpassword)){
+        if(!(email&&username&&password&&cpassword))
             return res.status(404).send({msg:"Fields are empty"});
-        }
-        if (password !==cpasword){
+        
+        if (password !==cpassword)
             return res.ststus(404).send({msg:"Password does not match"});
-        }
+        
         bcrypt
             .hash(password,10)
             .then ((hashedpassword)=>{
                 userSchema
-                .create({email,username,password,cpassword})
+                .create({email,username,password:hashedpassword})
                 .then(()=>{
                     return res.status(201).send({msg:"Success"});
 
@@ -122,7 +122,11 @@ export async function signIn(req,res){
     //convert to hash and comparre using bcrypt
     const success =await bcrypt.compare(password,user.password);
     console.log(success);
+    if(success!==true)
+        return res.status(404).send({msg:"inavlid password or email"});
+
     //generate token using sign
+    const token=await sign({userId:user._id},process.env.JWT_KEY,{expiresIn:"24h"})
     console.log(token);
     return res.status (200).send ({msg:"successfully loged in",token})
     
