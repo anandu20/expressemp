@@ -31,8 +31,14 @@ export async function addEmp(req,res){
 }
 export async function getEmployees(req,res) {
     try {
+        console.log(req.user.userId);
+        const _id=req.user.userId;
+        const use=await employSchema.findOne({_id});
+        console.log(user);
+        if(!user)return res.status(403).send({msg:"unauthorized access"})
+        
         const employees=await employSchema.find();
-        res.status(200).send(employees)
+        res.status(200).send({employees,username:user.username})
         
     } catch (error) {
         res.status(404).send({msg:error})
@@ -129,6 +135,8 @@ export async function signIn(req,res){
     const token=await sign({userId:user._id},process.env.JWT_KEY,{expiresIn:"24h"})
     console.log(token);
     return res.status (200).send ({msg:"successfully loged in",token})
+
+    //this send token to local storage
     
     
     

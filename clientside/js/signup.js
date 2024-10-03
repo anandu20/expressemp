@@ -13,7 +13,7 @@ document.getElementById("frm").addEventListener("submit",async(e)=>{
         console.log(res);
         if(res.status==201){
             alert("success");
-            window.location.href="../index.html";
+            window.location.href="../pages/signin.html";
         }else if(res.status==404){
             const data=await res.json()
             alert(data.msg)

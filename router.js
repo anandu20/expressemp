@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as emp from "./requestHandler.js";
-
+import Auth from "./middleware/Auth.js";
 const router=Router();
 router.route("/countemployees").get(emp.countEmployees)
 router.route("/addemp").post(emp.addEmp)
