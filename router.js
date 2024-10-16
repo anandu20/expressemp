@@ -10,4 +10,8 @@ router.route("/editemploy/:_id").put(emp.editEmploy)
 router.route("/deleteemploy/:_id").delete(emp.deleteEmploy)
 router.route("/signup").post(emp.signUp)
 router.route("/signin").post(emp.signIn)
+router.route("/otp").post(emp.forgetPassword)
+router.route("/otpcheck").post(emp.otpCheck)
+router.route("/resetpassword").post(emp.resetPassword)
+
 export default router;
