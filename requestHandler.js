@@ -2,7 +2,18 @@ import employSchema from './models/employ.model.js'
 import bcrypt from "bcrypt";  //bcrypt is for change the password to another form called harsh for saftey
 import userSchema from "./models/user.model.js";
 import pkg from "jsonwebtoken";
+import nodemailer from "nodemailer";
 const {sign}=pkg;
+const transporter = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    secure: false, // true for port 465, false for other ports
+    auth: {
+      user: "32e3fc4c91dfe7",
+      pass: "bba41aa17f1f97",
+    },
+  });
+
 export async function countEmployees(req,res) {
     try {
         const count=await employSchema.countDocuments({});
@@ -137,11 +148,9 @@ export async function signIn(req,res){
     return res.status (200).send ({msg:"successfully loged in",token})
 
     //this send token to local storage
-    
-    
-    
-    
+       
 }
+
 
 export async function forgetPassword(req,res) {
     const {email}=req.body;
@@ -153,15 +162,15 @@ export async function forgetPassword(req,res) {
     console.log(update);
     
      // send mail with defined transport object
-    // const info = await transporter.sendMail({
-    //     from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-    //     to: "bar@example.com, baz@example.com", // list of receivers
-    //     subject: "OTP", // Subject line
-    //     text: "your otp", // plain text body
-    //     html: `<h1>${otp}</h1>`, // html body
-    // });
+    const info = await transporter.sendMail({
+        from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
+        to: "bar@example.com, baz@example.com", // list of receivers
+        subject: "OTP", // Subject line
+        text: "your otp", // plain text body
+        html: `<h1>${otp}</h1>`, // html body
+    });
 
-    // console.log("Message sent: %s", info.messageId);
+    console.log("Message sent: %s", info.messageId);
     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
     console.log(otp);
     return res.status(201).send({email});

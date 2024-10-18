@@ -7,7 +7,8 @@ document.getElementById("frm").addEventListener("submit",async(e)=>{
         body:JSON.stringify({email})
     });
     const result=await res.json();
-    if(res.status==200){
+    if(res.status==201){
+        console.log(res);
         localStorage.setItem("email",`${result.email}`)
         window.location.href="../pages/getOtp.html";
     }
